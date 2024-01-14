@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth/next"
 import { z } from "zod"
 
 import { proPlan } from "@/config/subscriptions"
-import { authOptions } from "@/lib/auth"
+import { authOptions } from "@/server/auth"
 import { stripe } from "@/lib/stripe"
 import { getUserSubscriptionPlan } from "@/lib/subscription"
 import { absoluteUrl } from "@/lib/utils"

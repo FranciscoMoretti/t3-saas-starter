@@ -15,7 +15,7 @@ datasource db {
 }
 
 model Post {
-    id        Int      @id @default(autoincrement())
+    id        String   @id @default(cuid())
     title     String
     content   Json?
     published Boolean  @default(false)
