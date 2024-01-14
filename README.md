@@ -1,28 +1,62 @@
-# Create T3 App
+# T3-Taxonomy
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+This repository combines the best of both worlds, merging the powerful features of the `taxonomy` application with the streamlined development setup of `create-t3-app`. The result is a versatile and efficient project built on the T3 Stack.
 
-## What's next? How do I make an app with this?
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+## Getting Started
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+This project is based on the [T3 Stack](https://create.t3.gg/) and bootstrapped with `create-t3-app`. Follow the steps below to get started:
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+1. **Clone the Repository:**
+
+   ```bash
+   git clone https://github.com/FranciscoMoretti/t3-taxonomy.git
+   ```
+
+2. **Install Dependencies:**
+
+   ```bash
+   cd t3-taxonomy
+   pnpm install
+   ```
+
+3. **Configuration:**
+
+   Copy the `.env.example` file to `.env.local` and update the variables as needed:
+
+   ```bash
+   cp .env.example .env.local
+   ```
+
+4. **Run the Development Server:**
+
+   ```bash
+   pnpm dev
+   ```
+
+   The application will be accessible at [http://localhost:3000](http://localhost:3000).
+
+
+## Features
+
+- **T3 Stack Base:** Built on the foundation of [T3 Stack](https://create.t3.gg/) using `create-t3-app`.
+- **Next.js 13 and Server Components:** Embracing the latest features for enhanced performance and flexibility.
+- **Authentication:** Utilizing NextAuth.js for authentication.
+- **ORM and Database:** Leveraging Prisma and hosting the database on PlanetScale.
+- **UI Components:** Shadcn/ui to design your UI using Tailwind CSS and Radix UI components.
+- **Documentation and Blog:** Using MDX and Contentlayer for documentation and blogging.
+- **Subscriptions:** Implementing subscriptions using Stripe.
+- **Validations:** Ensuring data integrity with Zod for validations.
+- **Written in TypeSc
 
 ## Learn More
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+To explore more about the T3 Stack and its components, refer to the following resources:
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+- [T3 Stack Documentation](https://create.t3.gg/)
+- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available)
+- [create-t3-app GitHub Repository](https://github.com/t3-oss/create-t3-app)
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+## License
 
-## How do I deploy this?
-
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+This project is licensed under the [MIT license](LICENSE.md).
