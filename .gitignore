@@ -40,3 +40,9 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+
+# VS Code
+.vscode
+
+# Contentlayer
+.contentlayer
