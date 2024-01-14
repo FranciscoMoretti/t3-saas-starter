@@ -3,31 +3,60 @@ import { z } from "zod";
 import {
   createTRPCRouter,
   protectedProcedure,
-  publicProcedure,
 } from "@/server/api/trpc";
+import { getUserSubscriptionPlan } from "@/lib/subscription";
+import { RequiresProPlanError } from "@/lib/exceptions";
 
 export const postRouter = createTRPCRouter({
-  hello: publicProcedure
-    .input(z.object({ text: z.string() }))
-    .query(({ input }) => {
-      return {
-        greeting: `Hello ${input.text}`,
-      };
-    }),
-
   create: protectedProcedure
-    .input(z.object({ title: z.string().min(1) }))
+    .input(z.object({
+      title: z.string().min(1),
+      content: z.string().optional(),
+    }))
     .mutation(async ({ ctx, input }) => {
-      // simulate a slow db call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const user = ctx.session.user
+      const subscriptionPlan = await getUserSubscriptionPlan(user.id)
+
+      // If user is on a free plan.
+      // Check if user has reached limit of 3 posts.
+      if (!subscriptionPlan?.isPro) {
+        const count = await ctx.db.post.count({
+          where: {
+            authorId: user.id,
+          },
+        })
+
+        if (count >= 3) {
+          throw new RequiresProPlanError()
+        }
+      }
 
       return ctx.db.post.create({
         data: {
           title: input.title,
+          content: input.content,
           author: { connect: { id: ctx.session.user.id } },
+        },
+        select: {
+          id: true,
         },
       });
     }),
+
+  get: protectedProcedure.input(z.object({ id: z.string().min(1) }))
+  .query(async ({ ctx, input }) => {
+    return ctx.db.post.findMany({
+      select: {
+        id: true,
+        title: true,
+        published: true,
+        createdAt: true,
+      },
+      where: {
+        authorId: input.id,
+      },
+    })
+  }),
 
   getLatest: protectedProcedure.query(({ ctx }) => {
     return ctx.db.post.findFirst({
@@ -36,7 +65,39 @@ export const postRouter = createTRPCRouter({
     });
   }),
 
-  getSecretMessage: protectedProcedure.query(() => {
-    return "you can now see this secret message!";
+  delete: protectedProcedure
+  .input(
+    z.object({
+      id: z.string(),
+    }),
+  )
+  .mutation(({ ctx, input }) => {
+    return ctx.db.post.delete({
+      where: {
+        author: { id: ctx.session.user.id },
+        id: input.id,
+      },
+    });
+  }),
+
+  update: protectedProcedure
+  .input(
+    z.object({
+      title:  z.string().min(3).max(128).optional(),
+      content: z.any().optional(), //TODO Content should be JSON
+      id: z.string(),
+    }),
+  )
+  .mutation(({ ctx, input }) => {
+    return ctx.db.post.update({
+      where: {
+        author: { id: ctx.session.user.id },
+        id: input.id,
+      },
+      data: {
+        title: input.title,
+        content: input.content,
+      },
+    });
   }),
 });

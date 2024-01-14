@@ -16,6 +16,7 @@ import { postPatchSchema } from "@/lib/validations/post"
 import { buttonVariants } from "@/components/ui/button"
 import { toast } from "@/components/ui/use-toast"
 import { Icons } from "@/components/icons"
+import { api } from "@/trpc/react";
 
 interface EditorProps {
   post: Pick<Post, "id" | "title" | "content" | "published">
@@ -31,6 +32,26 @@ export function Editor({ post }: EditorProps) {
   const router = useRouter()
   const [isSaving, setIsSaving] = React.useState<boolean>(false)
   const [isMounted, setIsMounted] = React.useState<boolean>(false)
+  const updatePost = api.post.update.useMutation({
+    onSuccess: (data) => {
+      // Should invalidate the queryKey that loads posts
+      toast({
+        description: "Your post has been saved.",
+      })
+      setIsSaving(false)
+      router.refresh()
+    },
+    onError: () => {
+      setIsSaving(false)
+      toast({
+        title: "Something went wrong.",
+        description: "Your post was not saved. Please try again.",
+        variant: "destructive",
+      })
+      router.refresh()
+    },
+  });
+
 
   const initializeEditor = React.useCallback(async () => {
     const EditorJS = (await import("@editorjs/editorjs")).default
@@ -88,31 +109,10 @@ export function Editor({ post }: EditorProps) {
 
     const blocks = await ref.current?.save()
 
-    const response = await fetch(`/api/posts/${post.id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        title: data.title,
-        content: blocks,
-      }),
-    })
-
-    setIsSaving(false)
-
-    if (!response?.ok) {
-      return toast({
-        title: "Something went wrong.",
-        description: "Your post was not saved. Please try again.",
-        variant: "destructive",
-      })
-    }
-
-    router.refresh()
-
-    return toast({
-      description: "Your post has been saved.",
+    updatePost.mutate({
+      id: post.id,
+      title: data.title,
+      content: blocks,
     })
   }
 
