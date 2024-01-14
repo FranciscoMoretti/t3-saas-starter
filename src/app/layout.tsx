@@ -12,6 +12,7 @@ import { Toaster } from "@/components/ui/toaster"
 import { Analytics } from "@/components/analytics"
 import { TailwindIndicator } from "@/components/tailwind-indicator"
 import { ThemeProvider } from "@/components/theme-provider"
+import type { Viewport, Metadata} from 'next'
 
 
 const fontSans = FontSans({
@@ -26,7 +27,14 @@ const fontHeading = localFont({
 })
 
 
-export const metadata = {
+export const viewport: Viewport = {
+    themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "white" },
+    { media: "(prefers-color-scheme: dark)", color: "black" },
+  ],
+}
+
+export const metadata: Metadata = {
   title: {
     default: siteConfig.name,
     template: `%s | ${siteConfig.name}`,
@@ -46,10 +54,6 @@ export const metadata = {
     },
   ],
   creator: "shadcn",
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "white" },
-    { media: "(prefers-color-scheme: dark)", color: "black" },
-  ],
   openGraph: {
     type: "website",
     locale: "en_US",
