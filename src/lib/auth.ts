@@ -4,7 +4,7 @@ import EmailProvider from "next-auth/providers/email"
 import GitHubProvider from "next-auth/providers/github"
 import { Client } from "postmark"
 
-import { env } from "@/env.mjs"
+import { env } from "@/env.js"
 import { siteConfig } from "@/config/site"
 import { db } from "@/lib/db"
 
