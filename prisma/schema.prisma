@@ -6,8 +6,8 @@ generator client {
 }
 
 datasource db {
-    provider = "sqlite"
-    // NOTE: When using mysql or sqlserver, uncomment the @db.Text annotations in model Account below
+    provider = "mysql"
+    // NOTE: When using mysql or sqlserver, the @db.Text annotations in model Account below are needed
     // Further reading:
     // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
     // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
@@ -16,14 +16,16 @@ datasource db {
 
 model Post {
     id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    title     String
+    content   Json?
+    published Boolean  @default(false)
+    createdAt DateTime @default(now()) @map(name: "created_at")
+    updatedAt DateTime @default(now()) @map(name: "updated_at")
+    authorId  String
 
-    createdBy   User   @relation(fields: [createdById], references: [id])
-    createdById String
+    author User @relation(fields: [authorId], references: [id])
 
-    @@index([name])
+    @@map(name: "posts")
 }
 
 // Necessary for Next auth
@@ -33,16 +35,20 @@ model Account {
     type              String
     provider          String
     providerAccountId String
-    refresh_token     String? // @db.Text
-    access_token      String? // @db.Text
+    refresh_token     String? @db.Text
+    access_token      String? @db.Text
     expires_at        Int?
     token_type        String?
     scope             String?
-    id_token          String? // @db.Text
+    id_token          String? @db.Text
     session_state     String?
+    createdAt         DateTime @default(now()) @map(name: "created_at")
+    updatedAt         DateTime @default(now()) @map(name: "updated_at")
+
     user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     @@unique([provider, providerAccountId])
+    @@map(name: "accounts")
 }
 
 model Session {
@@ -51,6 +57,8 @@ model Session {
     userId       String
     expires      DateTime
     user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map(name: "sessions")
 }
 
 model User {
@@ -59,9 +67,19 @@ model User {
     email         String?   @unique
     emailVerified DateTime?
     image         String?
+    createdAt     DateTime  @default(now()) @map(name: "created_at")
+    updatedAt     DateTime  @default(now()) @map(name: "updated_at")
+
     accounts      Account[]
     sessions      Session[]
     posts         Post[]
+
+    stripeCustomerId       String?   @unique @map(name: "stripe_customer_id")
+    stripeSubscriptionId   String?   @unique @map(name: "stripe_subscription_id")
+    stripePriceId          String?   @map(name: "stripe_price_id")
+    stripeCurrentPeriodEnd DateTime? @map(name: "stripe_current_period_end")
+
+    @@map(name: "users")
 }
 
 model VerificationToken {
@@ -70,4 +88,5 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+    @@map(name: "verification_tokens")
 }
