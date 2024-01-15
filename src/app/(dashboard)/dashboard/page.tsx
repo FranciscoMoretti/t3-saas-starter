@@ -1,39 +1,26 @@
-import { redirect } from "next/navigation"
+import { redirect } from "next/navigation";
 
-import { authOptions } from "@/server/auth"
-import { db } from "@/lib/db"
-import { getCurrentUser } from "@/lib/session"
-import { EmptyPlaceholder } from "@/components/empty-placeholder"
-import { DashboardHeader } from "@/components/header"
-import { PostCreateButton } from "@/components/post-create-button"
-import { PostItem } from "@/components/post-item"
-import { DashboardShell } from "@/components/shell"
+import { authOptions } from "@/server/auth";
+import { api } from "@/trpc/server";
+import { getCurrentUser } from "@/lib/session";
+import { EmptyPlaceholder } from "@/components/empty-placeholder";
+import { DashboardHeader } from "@/components/header";
+import { PostCreateButton } from "@/components/post-create-button";
+import { PostItem } from "@/components/post-item";
+import { DashboardShell } from "@/components/shell";
 
 export const metadata = {
   title: "Dashboard",
-}
+};
 
 export default async function DashboardPage() {
-  const user = await getCurrentUser()
+  const user = await getCurrentUser();
 
   if (!user) {
-    redirect(authOptions?.pages?.signIn || "/login")
+    redirect(authOptions?.pages?.signIn || "/login");
   }
 
-  const posts = await db.post.findMany({
-    where: {
-      authorId: user.id,
-    },
-    select: {
-      id: true,
-      title: true,
-      published: true,
-      createdAt: true,
-    },
-    orderBy: {
-      updatedAt: "desc",
-    },
-  })
+  const posts = await api.post.getAll.query();
 
   return (
     <DashboardShell>
@@ -59,5 +46,5 @@ export default async function DashboardPage() {
         )}
       </div>
     </DashboardShell>
-  )
+  );
 }
