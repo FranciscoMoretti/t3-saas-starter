@@ -1,21 +1,20 @@
 import { z } from "zod";
 
-import {
-  createTRPCRouter,
-  protectedProcedure,
-} from "@/server/api/trpc";
+import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 import { getUserSubscriptionPlan } from "@/lib/subscription";
 import { RequiresProPlanError } from "@/lib/exceptions";
 
 export const postRouter = createTRPCRouter({
   create: protectedProcedure
-    .input(z.object({
-      title: z.string().min(1),
-      content: z.string().optional(),
-    }))
+    .input(
+      z.object({
+        title: z.string().min(1),
+        content: z.string().optional(),
+      }),
+    )
     .mutation(async ({ ctx, input }) => {
-      const user = ctx.session.user
-      const subscriptionPlan = await getUserSubscriptionPlan(user.id)
+      const user = ctx.session.user;
+      const subscriptionPlan = await getUserSubscriptionPlan(user.id);
 
       // If user is on a free plan.
       // Check if user has reached limit of 3 posts.
@@ -24,10 +23,10 @@ export const postRouter = createTRPCRouter({
           where: {
             authorId: user.id,
           },
-        })
+        });
 
         if (count >= 3) {
-          throw new RequiresProPlanError()
+          throw new RequiresProPlanError();
         }
       }
 
@@ -43,20 +42,22 @@ export const postRouter = createTRPCRouter({
       });
     }),
 
-  get: protectedProcedure.input(z.object({ id: z.string().min(1) }))
-  .query(async ({ ctx, input }) => {
-    return ctx.db.post.findMany({
-      select: {
-        id: true,
-        title: true,
-        published: true,
-        createdAt: true,
-      },
-      where: {
-        authorId: input.id,
-      },
-    })
-  }),
+  get: protectedProcedure
+    .input(z.object({ id: z.string().min(1) }))
+    .query(async ({ ctx, input }) => {
+      return ctx.db.post.findMany({
+        select: {
+          id: true,
+          title: true,
+          published: true,
+          createdAt: true,
+        },
+        where: {
+          authorId: ctx.session.user.id,
+          id: input.id,
+        },
+      });
+    }),
 
   getLatest: protectedProcedure.query(({ ctx }) => {
     return ctx.db.post.findFirst({
@@ -66,38 +67,38 @@ export const postRouter = createTRPCRouter({
   }),
 
   delete: protectedProcedure
-  .input(
-    z.object({
-      id: z.string(),
+    .input(
+      z.object({
+        id: z.string(),
+      }),
+    )
+    .mutation(({ ctx, input }) => {
+      return ctx.db.post.delete({
+        where: {
+          author: { id: ctx.session.user.id },
+          id: input.id,
+        },
+      });
     }),
-  )
-  .mutation(({ ctx, input }) => {
-    return ctx.db.post.delete({
-      where: {
-        author: { id: ctx.session.user.id },
-        id: input.id,
-      },
-    });
-  }),
 
   update: protectedProcedure
-  .input(
-    z.object({
-      title:  z.string().min(3).max(128).optional(),
-      content: z.any().optional(), //TODO Content should be JSON
-      id: z.string(),
+    .input(
+      z.object({
+        title: z.string().min(3).max(128).optional(),
+        content: z.any().optional(), //TODO Content should be JSON
+        id: z.string(),
+      }),
+    )
+    .mutation(({ ctx, input }) => {
+      return ctx.db.post.update({
+        where: {
+          author: { id: ctx.session.user.id },
+          id: input.id,
+        },
+        data: {
+          title: input.title,
+          content: input.content,
+        },
+      });
     }),
-  )
-  .mutation(({ ctx, input }) => {
-    return ctx.db.post.update({
-      where: {
-        author: { id: ctx.session.user.id },
-        id: input.id,
-      },
-      data: {
-        title: input.title,
-        content: input.content,
-      },
-    });
-  }),
 });
