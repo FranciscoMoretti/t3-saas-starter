@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { useRouter } from "next/navigation"
+import { api } from "@/trpc/react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { User } from "@prisma/client"
 import { useForm } from "react-hook-form"
@@ -22,7 +23,6 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { toast } from "@/components/ui/use-toast"
 import { Icons } from "@/components/icons"
-import { api } from "@/trpc/react";
 
 interface UserNameFormProps extends React.HTMLAttributes<HTMLFormElement> {
   user: Pick<User, "id" | "name">
@@ -49,7 +49,7 @@ export function UserNameForm({ user, className, ...props }: UserNameFormProps) {
         description: "Your name has been updated.",
       })
       setIsSaving(false)
-      router.refresh();
+      router.refresh()
     },
     onError: () => {
       toast({
@@ -59,14 +59,13 @@ export function UserNameForm({ user, className, ...props }: UserNameFormProps) {
       })
       setIsSaving(false)
     },
-  });
-
+  })
 
   async function onSubmit(data: FormData) {
     setIsSaving(true)
     updateName.mutate({
       name: data.name,
-    });
+    })
   }
 
   return (

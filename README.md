@@ -2,7 +2,6 @@
 
 This repository combines the best of both worlds, merging the powerful features of the [taxonomy](https://github.com/shadcn-ui/taxonomy/) application with the streamlined development setup of [create-t3-app](https://github.com/t3-oss/create-t3-app). The result is a versatile and efficient project built on the T3 Stack.
 
-
 ## Getting Started
 
 This project is based on the [T3 Stack](https://create.t3.gg/) and bootstrapped with `create-t3-app`. Follow the steps below to get started:
@@ -36,7 +35,6 @@ This project is based on the [T3 Stack](https://create.t3.gg/) and bootstrapped 
 
    The application will be accessible at [http://localhost:3000](http://localhost:3000).
 
-
 ## Features
 
 - **T3 Stack Base:** Built on the foundation of [T3 Stack](https://create.t3.gg/) using `create-t3-app`.
@@ -47,7 +45,7 @@ This project is based on the [T3 Stack](https://create.t3.gg/) and bootstrapped 
 - **Documentation and Blog:** Using MDX and Contentlayer for documentation and blogging.
 - **Subscriptions:** Implementing subscriptions using Stripe.
 - **Validations:** Ensuring data integrity with Zod for validations.
-- **Written in TypeSc
+- \*\*Written in TypeSc
 
 ## Learn More
 

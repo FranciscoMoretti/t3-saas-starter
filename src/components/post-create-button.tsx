@@ -2,12 +2,12 @@
 
 import * as React from "react"
 import { useRouter } from "next/navigation"
+import { api } from "@/trpc/react"
 
 import { cn } from "@/lib/utils"
 import { ButtonProps, buttonVariants } from "@/components/ui/button"
 import { toast } from "@/components/ui/use-toast"
 import { Icons } from "@/components/icons"
-import { api } from "@/trpc/react";
 
 interface PostCreateButtonProps extends ButtonProps {}
 
@@ -21,8 +21,8 @@ export function PostCreateButton({
   const createPost = api.post.create.useMutation({
     onSuccess: (data) => {
       // Should invalidate the queryKey that loads posts
-      setIsLoading(false);
-      router.push(`/editor/${data.id}`);
+      setIsLoading(false)
+      router.push(`/editor/${data.id}`)
     },
     onError: () => {
       // TODO handle max posts
@@ -33,21 +33,21 @@ export function PostCreateButton({
       //     variant: "destructive",
       //   });
       // }
-      setIsLoading(false);
+      setIsLoading(false)
       toast({
         title: "Something went wrong.",
         description: "Your post was not created. Please try again.",
         variant: "destructive",
       })
     },
-  });
+  })
 
   async function onClick() {
     setIsLoading(true)
 
     createPost.mutate({
       title: "Untitled Post",
-    });
+    })
   }
 
   return (

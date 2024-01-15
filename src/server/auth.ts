@@ -1,7 +1,10 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
-import {   type DefaultSession,
-  type NextAuthOptions, getServerSession } from "next-auth"
-import DiscordProvider from "next-auth/providers/discord";
+import {
+  getServerSession,
+  type DefaultSession,
+  type NextAuthOptions,
+} from "next-auth"
+import DiscordProvider from "next-auth/providers/discord"
 
 import { env } from "@/env.js"
 import { db } from "@/lib/db"
@@ -13,18 +16,18 @@ import { db } from "@/lib/db"
  * @see https://next-auth.js.org/getting-started/typescript#module-augmentation
  */
 declare module "next-auth" {
- interface Session extends DefaultSession {
-   user: {
-     id: string;
-     // ...other properties
-     // role: UserRole;
-   } & DefaultSession["user"];
- }
+  interface Session extends DefaultSession {
+    user: {
+      id: string
+      // ...other properties
+      // role: UserRole;
+    } & DefaultSession["user"]
+  }
 
- // interface User {
- //   // ...other properties
- //   // role: UserRole;
- // }
+  // interface User {
+  //   // ...other properties
+  //   // role: UserRole;
+  // }
 }
 
 /**
@@ -90,10 +93,9 @@ export const authOptions: NextAuthOptions = {
   },
 }
 
-
 /**
  * Wrapper for `getServerSession` so that you don't need to import the `authOptions` in every file.
  *
  * @see https://next-auth.js.org/configuration/nextjs
  */
-export const getServerAuthSession = () => getServerSession(authOptions);
+export const getServerAuthSession = () => getServerSession(authOptions)

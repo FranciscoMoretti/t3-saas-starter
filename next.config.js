@@ -4,17 +4,17 @@
  */
 import { withContentlayer } from "next-contentlayer"
 
-await import("./src/env.js");
+await import("./src/env.js")
 
 /** @type {import("next").NextConfig} */
 const config = {
-    reactStrictMode: true,
-    images: {
-      domains: ["avatars.githubusercontent.com"],
-    },
-    experimental: {
-      serverComponentsExternalPackages: ["@prisma/client"],
-    },
-};
+  reactStrictMode: true,
+  images: {
+    domains: ["avatars.githubusercontent.com"],
+  },
+  experimental: {
+    serverComponentsExternalPackages: ["@prisma/client"],
+  },
+}
 
-export default withContentlayer(config);
+export default withContentlayer(config)

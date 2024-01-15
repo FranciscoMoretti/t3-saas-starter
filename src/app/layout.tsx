@@ -1,19 +1,17 @@
 import { Inter as FontSans } from "next/font/google"
 import localFont from "next/font/local"
 
-import "@/styles/globals.css";
+import "@/styles/globals.css"
+import type { Metadata, Viewport } from "next"
+import { cookies } from "next/headers"
+import { TRPCReactProvider } from "@/trpc/react"
 
-import { cookies } from "next/headers";
-
-import { TRPCReactProvider } from "@/trpc/react";
 import { siteConfig } from "@/config/site"
 import { absoluteUrl, cn } from "@/lib/utils"
 import { Toaster } from "@/components/ui/toaster"
 import { Analytics } from "@/components/analytics"
 import { TailwindIndicator } from "@/components/tailwind-indicator"
 import { ThemeProvider } from "@/components/theme-provider"
-import type { Viewport, Metadata} from 'next'
-
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -26,9 +24,8 @@ const fontHeading = localFont({
   variable: "--font-heading",
 })
 
-
 export const viewport: Viewport = {
-    themeColor: [
+  themeColor: [
     { media: "(prefers-color-scheme: light)", color: "white" },
     { media: "(prefers-color-scheme: dark)", color: "black" },
   ],
@@ -80,7 +77,7 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
   return (
     <html lang="en">
@@ -93,15 +90,14 @@ export default function RootLayout({
         )}
       >
         <TRPCReactProvider cookies={cookies().toString()}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-
-          {children}
-          <Analytics />
-          <Toaster />
-          <TailwindIndicator />
-        </ThemeProvider>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            {children}
+            <Analytics />
+            <Toaster />
+            <TailwindIndicator />
+          </ThemeProvider>
         </TRPCReactProvider>
       </body>
     </html>
-  );
+  )
 }

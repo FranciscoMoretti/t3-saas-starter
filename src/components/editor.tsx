@@ -11,12 +11,13 @@ import TextareaAutosize from "react-textarea-autosize"
 import * as z from "zod"
 
 import "@/styles/editor.css"
+import { api } from "@/trpc/react"
+
 import { cn } from "@/lib/utils"
 import { postPatchSchema } from "@/lib/validations/post"
 import { buttonVariants } from "@/components/ui/button"
 import { toast } from "@/components/ui/use-toast"
 import { Icons } from "@/components/icons"
-import { api } from "@/trpc/react";
 
 interface EditorProps {
   post: Pick<Post, "id" | "title" | "content" | "published">
@@ -50,8 +51,7 @@ export function Editor({ post }: EditorProps) {
       })
       router.refresh()
     },
-  });
-
+  })
 
   const initializeEditor = React.useCallback(async () => {
     const EditorJS = (await import("@editorjs/editorjs")).default

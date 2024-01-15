@@ -3,6 +3,7 @@
 import * as React from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import { api } from "@/trpc/react"
 import { Post } from "@prisma/client"
 
 import {
@@ -24,7 +25,6 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { toast } from "@/components/ui/use-toast"
 import { Icons } from "@/components/icons"
-import { api } from "@/trpc/react";
 
 interface PostOperationsProps {
   post: Pick<Post, "id" | "title">
@@ -42,14 +42,14 @@ export function PostOperations({ post }: PostOperationsProps) {
       router.refresh()
     },
     onError: () => {
-      setIsDeleteLoading(false);
+      setIsDeleteLoading(false)
       toast({
         title: "Something went wrong.",
         description: "Your post was not created. Please try again.",
         variant: "destructive",
       })
     },
-  });
+  })
 
   return (
     <>
@@ -89,7 +89,7 @@ export function PostOperations({ post }: PostOperationsProps) {
               onClick={async (event) => {
                 event.preventDefault()
                 setIsDeleteLoading(true)
-                deletePost.mutate({id: post.id})
+                deletePost.mutate({ id: post.id })
               }}
               className="bg-red-600 focus:ring-red-600"
             >

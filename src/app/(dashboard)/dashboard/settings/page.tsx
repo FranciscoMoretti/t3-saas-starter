@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation"
-
 import { authOptions } from "@/server/auth"
+
 import { getCurrentUser } from "@/lib/session"
 import { DashboardHeader } from "@/components/header"
 import { DashboardShell } from "@/components/shell"

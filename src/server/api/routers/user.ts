@@ -1,5 +1,6 @@
-import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
-import { userNameSchema } from "@/lib/validations/user";
+import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc"
+
+import { userNameSchema } from "@/lib/validations/user"
 
 export const userRouter = createTRPCRouter({
   updateName: protectedProcedure
@@ -12,6 +13,6 @@ export const userRouter = createTRPCRouter({
         data: {
           name: input.name,
         },
-      });
+      })
     }),
-});
+})

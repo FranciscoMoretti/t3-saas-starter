@@ -1,20 +1,17 @@
-"use client";
+"use client"
 
-import * as React from "react";
+import * as React from "react"
+import { signIn } from "next-auth/react"
 
-import { signIn } from "next-auth/react";
+import { cn } from "@/lib/utils"
+import { buttonVariants } from "@/components/ui/button"
+import { Icons } from "@/components/icons"
 
-import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button";
-
-import { Icons } from "@/components/icons";
-
-type UserAuthFormProps = React.HTMLAttributes<HTMLDivElement>;
+type UserAuthFormProps = React.HTMLAttributes<HTMLDivElement>
 
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
-  const [isLoading, setIsLoading] = React.useState<boolean>(false);
-  const [isDiscordLoading, setIsDiscordLoading] =
-    React.useState<boolean>(false);
+  const [isLoading, setIsLoading] = React.useState<boolean>(false)
+  const [isDiscordLoading, setIsDiscordLoading] = React.useState<boolean>(false)
 
   return (
     <div className={cn("grid gap-6", className)} {...props}>
@@ -22,10 +19,10 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         type="button"
         className={cn(buttonVariants({ variant: "outline" }))}
         onClick={async () => {
-          setIsDiscordLoading(true);
+          setIsDiscordLoading(true)
           setIsLoading(true)
-          await signIn("discord");
-          setIsDiscordLoading(false);
+          await signIn("discord")
+          setIsDiscordLoading(false)
           setIsLoading(false)
         }}
         disabled={isLoading || isDiscordLoading}
@@ -38,5 +35,5 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         Discord
       </button>
     </div>
-  );
+  )
 }
