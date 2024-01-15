@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { User } from "next-auth"
+import { type User } from "next-auth"
 import { signOut } from "next-auth/react"
 
 import {
@@ -50,9 +50,9 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
         <DropdownMenuSeparator />
         <DropdownMenuItem
           className="cursor-pointer"
-          onSelect={(event) => {
+          onSelect={async (event) => {
             event.preventDefault()
-            signOut({
+            await signOut({
               callbackUrl: `${window.location.origin}/login`,
             })
           }}

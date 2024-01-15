@@ -3,7 +3,7 @@ import * as React from "react"
 import { cn } from "@/lib/utils"
 import { Icons } from "@/components/icons"
 
-interface EmptyPlaceholderProps extends React.HTMLAttributes<HTMLDivElement> {}
+type EmptyPlaceholderProps = React.HTMLAttributes<HTMLDivElement>
 
 export function EmptyPlaceholder({
   className,
@@ -48,8 +48,7 @@ EmptyPlaceholder.Icon = function EmptyPlaceHolderIcon({
   )
 }
 
-interface EmptyPlacholderTitleProps
-  extends React.HTMLAttributes<HTMLHeadingElement> {}
+type EmptyPlacholderTitleProps = React.HTMLAttributes<HTMLHeadingElement>
 
 EmptyPlaceholder.Title = function EmptyPlaceholderTitle({
   className,
@@ -60,8 +59,8 @@ EmptyPlaceholder.Title = function EmptyPlaceholderTitle({
   )
 }
 
-interface EmptyPlacholderDescriptionProps
-  extends React.HTMLAttributes<HTMLParagraphElement> {}
+type EmptyPlacholderDescriptionProps =
+  React.HTMLAttributes<HTMLParagraphElement>
 
 EmptyPlaceholder.Description = function EmptyPlaceholderDescription({
   className,

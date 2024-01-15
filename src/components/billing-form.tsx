@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { UserSubscriptionPlan } from "@/types"
+import * as React from "react";
+import { type UserSubscriptionPlan } from "@/types";
 
-import { cn, formatDate } from "@/lib/utils"
-import { buttonVariants } from "@/components/ui/button"
+import { cn, formatDate } from "@/lib/utils";
+import { buttonVariants } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -12,14 +12,14 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { toast } from "@/components/ui/use-toast"
-import { Icons } from "@/components/icons"
+} from "@/components/ui/card";
+import { toast } from "@/components/ui/use-toast";
+import { Icons } from "@/components/icons";
 
 interface BillingFormProps extends React.HTMLAttributes<HTMLFormElement> {
   subscriptionPlan: UserSubscriptionPlan & {
-    isCanceled: boolean
-  }
+    isCanceled: boolean;
+  };
 }
 
 export function BillingForm({
@@ -27,29 +27,31 @@ export function BillingForm({
   className,
   ...props
 }: BillingFormProps) {
-  const [isLoading, setIsLoading] = React.useState<boolean>(false)
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
-  async function onSubmit(event) {
-    event.preventDefault()
-    setIsLoading(!isLoading)
+  async function onSubmit(event: { preventDefault: () => void }) {
+    event.preventDefault();
+    setIsLoading(!isLoading);
 
     // Get a Stripe session URL.
-    const response = await fetch("/api/users/stripe")
+    const response = await fetch("/api/users/stripe");
 
     if (!response?.ok) {
       return toast({
         title: "Something went wrong.",
         description: "Please refresh the page and try again.",
         variant: "destructive",
-      })
+      });
     }
 
     // Redirect to the Stripe session.
     // This could be a checkout page for initial upgrade.
     // Or portal to manage existing subscription.
-    const session = await response.json()
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const session = await response.json();
     if (session) {
-      window.location.href = session.url
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      window.location.href = session.url as string;
     }
   }
 
@@ -86,5 +88,5 @@ export function BillingForm({
         </CardFooter>
       </Card>
     </form>
-  )
+  );
 }

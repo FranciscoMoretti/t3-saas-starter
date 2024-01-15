@@ -143,6 +143,9 @@ dependencies:
   '@trpc/server':
     specifier: ^10.43.6
     version: 10.45.0
+  '@types/mdast':
+    specifier: ^4.0.3
+    version: 4.0.3
   '@vercel/analytics':
     specifier: ^1.0.0
     version: 1.1.1
@@ -162,7 +165,7 @@ dependencies:
     specifier: ^8.0.1
     version: 8.2.2
   contentlayer:
-    specifier: ^0.3.1
+    specifier: ^0.3.4
     version: 0.3.4(esbuild@0.19.11)
   date-fns:
     specifier: ^2.29.3
@@ -177,7 +180,7 @@ dependencies:
     specifier: ^4.24.5
     version: 4.24.5(next@14.0.4)(nodemailer@6.9.8)(react-dom@18.2.0)(react@18.2.0)
   next-contentlayer:
-    specifier: ^0.3.1
+    specifier: ^0.3.4
     version: 0.3.4(contentlayer@0.3.4)(esbuild@0.19.11)(next@14.0.4)(react-dom@18.2.0)(react@18.2.0)
   next-themes:
     specifier: ^0.2.1
@@ -3571,6 +3574,12 @@ packages:
     resolution: {integrity: sha512-LnwD+mUEfxWMa1QpDraczIn6k0Ee3SMicuYSSzS6ZYl2gKS09EClnJYGd8Du6rfc5r/GZEk5o1mRb8TaTj03sQ==}
     dependencies:
       '@types/unist': 2.0.10
+
+  /@types/mdast@4.0.3:
+    resolution: {integrity: sha512-LsjtqsyF+d2/yFOYaN22dHZI1Cpwkrj+g06G8+qtUKlhovPW89YhqSnfKtMbkgmEtYpH2gydRNULd6y8mciAFg==}
+    dependencies:
+      '@types/unist': 2.0.10
+    dev: false
 
   /@types/mdx@2.0.10:
     resolution: {integrity: sha512-Rllzc5KHk0Al5/WANwgSPl1/CwjqCy+AZrGd78zuK+jO9aDM6ffblZ+zIjgPNAaEBmlO0RYDvLNh7wD0zKVgEg==}

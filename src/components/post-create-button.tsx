@@ -5,11 +5,11 @@ import { useRouter } from "next/navigation"
 import { api } from "@/trpc/react"
 
 import { cn } from "@/lib/utils"
-import { ButtonProps, buttonVariants } from "@/components/ui/button"
+import { buttonVariants, type ButtonProps } from "@/components/ui/button"
 import { toast } from "@/components/ui/use-toast"
 import { Icons } from "@/components/icons"
 
-interface PostCreateButtonProps extends ButtonProps {}
+type PostCreateButtonProps = ButtonProps
 
 export function PostCreateButton({
   className,

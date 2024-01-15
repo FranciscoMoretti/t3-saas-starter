@@ -1,20 +1,20 @@
-import Link from "next/link"
-import { Doc } from "contentlayer/generated"
+import Link from "next/link";
+import { type Doc } from "contentlayer/generated";
 
-import { docsConfig } from "@/config/docs"
-import { cn } from "@/lib/utils"
-import { buttonVariants } from "@/components/ui/button"
-import { Icons } from "@/components/icons"
+import { docsConfig } from "@/config/docs";
+import { cn } from "@/lib/utils";
+import { buttonVariants } from "@/components/ui/button";
+import { Icons } from "@/components/icons";
 
 interface DocsPagerProps {
-  doc: Doc
+  doc: Doc;
 }
 
 export function DocsPager({ doc }: DocsPagerProps) {
-  const pager = getPagerForDoc(doc)
+  const pager = getPagerForDoc(doc);
 
   if (!pager) {
-    return null
+    return null;
   }
 
   return (
@@ -38,27 +38,29 @@ export function DocsPager({ doc }: DocsPagerProps) {
         </Link>
       )}
     </div>
-  )
+  );
 }
 
 export function getPagerForDoc(doc: Doc) {
-  const flattenedLinks = [null, ...flatten(docsConfig.sidebarNav), null]
+  const flattenedLinks = [null, ...flatten(docsConfig.sidebarNav), null];
   const activeIndex = flattenedLinks.findIndex(
-    (link) => doc.slug === link?.href
-  )
-  const prev = activeIndex !== 0 ? flattenedLinks[activeIndex - 1] : null
+    (link) => doc.slug === link?.href,
+  );
+  const prev = activeIndex !== 0 ? flattenedLinks[activeIndex - 1] : null;
   const next =
     activeIndex !== flattenedLinks.length - 1
       ? flattenedLinks[activeIndex + 1]
-      : null
+      : null;
   return {
     prev,
     next,
-  }
+  };
 }
 
+// @ts-expect-error function args
 export function flatten(links: { items? }[]) {
   return links.reduce((flat, link) => {
-    return flat.concat(link.items ? flatten(link.items) : link)
-  }, [])
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    return flat.concat(link.items ? flatten(link.items) : link);
+  }, []);
 }
