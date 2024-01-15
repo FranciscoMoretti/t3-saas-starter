@@ -1,6 +1,6 @@
 # T3-Taxonomy
 
-This repository combines the best of both worlds, merging the powerful features of the `taxonomy` application with the streamlined development setup of `create-t3-app`. The result is a versatile and efficient project built on the T3 Stack.
+This repository combines the best of both worlds, merging the powerful features of the [taxonomy](https://github.com/shadcn-ui/taxonomy/) application with the streamlined development setup of [create-t3-app](https://github.com/t3-oss/create-t3-app). The result is a versatile and efficient project built on the T3 Stack.
 
 
 ## Getting Started
